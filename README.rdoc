@@ -1,9 +1,22 @@
 = i18n_sync
 
-Description goes here.
+Syncs all locale yml/rb files based on a "master" one.
+
+
+== Install
+
+  gem install i18n_sync
+
+
+= Use
+
+  i18s path/to/master/file.yml
+
+All other yml should be located on the same folder as the "master".
+
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a

@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "i18n_sync"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Syncs all locale yml/rb files based on a "master" one.}
+    gem.description = %Q{Gem to sync all locale yml/rb files based on a "master" one.}
     gem.email = "x@nofxx.com"
     gem.homepage = "http://github.com/nofxx/i18n_sync"
     gem.authors = ["Marcos Piccinini"]
