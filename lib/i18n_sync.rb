@@ -8,6 +8,7 @@ class I18S
     @fullpath, *new_ones = argv
     @file, *path = @fullpath.split("/").reverse # hm.. hack,,, in 1.9
     @path = path.reverse.join("/")              # can splat the first
+    @path ||= "."
     @lang = @file.split(".")[0]
     @debug = opts[:trace]
     @order = opts[:order]

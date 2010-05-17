@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{i18n_sync}
-  s.version = "0.0.1"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
@@ -24,7 +24,12 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "VERSION",
+     "bin/i18s",
+     "i18n_sync.gemspec",
      "lib/i18n_sync.rb",
+     "spec/fixtures/en.yml",
+     "spec/fixtures/pt.yml",
      "spec/i18n_sync_spec.rb",
      "spec/spec_helper.rb"
   ]
