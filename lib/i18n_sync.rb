@@ -4,13 +4,14 @@
 class I18S
 
   def initialize(argv, opts, argf=[])
-    p argv
     # argf.each { |file| p file }
     @fullpath, *new_ones = argv
     @file, *path = @fullpath.split("/").reverse # hm.. hack,,, in 1.9
     @path = path.reverse.join("/")              # can splat the first
     @path ||= "."
-    @lang = @file.split(".")[0]
+    s = @file.split(".")
+    @namespace =  s.length > 2 ? s[0]  : false
+    @lang = s[-2]
     @debug = opts[:trace]
     @order = opts[:order]
     puts "Start work on #{@file} (#{@lang})"
@@ -29,6 +30,10 @@ class I18S
     Dir["#{@path}/*.{yml,rb}"].each do |filename|
       #next if filename.match('_rails')
       basename = File.basename(filename, '.yml')
+      if basename =~ /\./
+        n, basename = basename.split(".")
+        next unless @namespace && @namespace == n
+      end
       puts "Writing #{filename} -> #{basename}"
       (comments, other) = read_file(filename, basename)
       @words.each { |k,v| other[k] ||= @words[k] }                    #Initializing hash variable as empty if it does not exist
