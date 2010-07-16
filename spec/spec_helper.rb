@@ -1,9 +1,14 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+TEST = true
 require 'i18n_sync'
-require 'spec'
-require 'spec/autorun'
-
-Spec::Runner.configure do |config|
-  
+begin
+  require 'spec'
+  require 'spec/autorun'
+rescue LoadError
+  require 'rspec'
 end
+
+# Spec::Runner.configure do |config|
+
+# end

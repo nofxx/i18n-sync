@@ -4,6 +4,7 @@
 class I18S
 
   def initialize(argv, opts, argf=[])
+    p argv
     # argf.each { |file| p file }
     @fullpath, *new_ones = argv
     @file, *path = @fullpath.split("/").reverse # hm.. hack,,, in 1.9
@@ -37,7 +38,7 @@ class I18S
   end
 
   def create(file)
-    fullpath = "#{@path}/#{file}.yml"
+    fullpath = file =~ /\// ? file : "#{@path}/#{file}.yml"
     return puts("File exists.") if File.exists?(fullpath)
     write_file(fullpath, file, "", @words)
   end

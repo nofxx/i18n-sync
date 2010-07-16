@@ -11,7 +11,7 @@ rescue LoadError
   # no rubygems to load, so we fail silently
 end
 require 'optparse'
-# $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'i18n_sync'
 
 Options = {}
@@ -24,12 +24,14 @@ Usage: #{File.basename($0)} <path/to/master.yml> [args]
 
 Options are:
 
-     -O --no-order  -  Order by name
-     -t --trace     -  Be more verbose
+     -o --order    -  Order by name
+     -t --trace    -  Be more verbose
 
 Common usage:
 
-   i18s ./en-US.yml
+   i18s ./en-US.yml    - Will sync all files with en-US
+   i18s ./en-US.yml pt - Creates a new translate file pt.yml
+
 
 BANNER
   opts.on("-O", "--no-order", "Table order" ) { Options[:order] = false }
