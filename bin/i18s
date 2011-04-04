@@ -3,7 +3,7 @@
 #  I18S
 #
 #  Created on 2010-5-17.
-#  Copyright (c) 2008. All rights reserved.
+#  Copyleft nofxx (c) 2011.
 #
 begin
   require 'rubygems'
@@ -43,5 +43,6 @@ if ARGV.empty?
   puts parser.banner
   exit
 else
-  I18S.new ARGV, Options # ARGF
+  syncr = I18S.new ARGV, Options # ARGF
+  syncr.work
 end
