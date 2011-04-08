@@ -5,6 +5,7 @@
 require 'ya2yaml'
 # To work with utf8 encoded .yml files.
 
+
 class Hash
   def deep_merge!(other_hash)
     other_hash.each do |k,v|
@@ -21,7 +22,7 @@ class I18S
   def self.work_on(argv, opts = {}, argf = [])
     if File.directory? path = argv[0]
       Dir["#{path}/**"].map do |file|
-        next unless file =~ /(^|\.)en\./
+        next unless file =~ /(^|\.)#{opts[:lang]}\./
         new([file], opts, argf)
       end.reject(&:nil?)
     else
@@ -29,19 +30,34 @@ class I18S
     end
   end
 
-  def initialize(argv, opts = {}, argf=[])
+  def self.recursive_hash
+    Hash.new { |h,k| h[k] = recursive_hash }
+  end
+
+  def self.add_key(key, val, file)
+    hsh = Hash.new { |h, k| h[k] = Hash.new(&h.default_proc) }#recursive_hash
+    keys = key.split(".")
+    keys.reduce(hsh) do |a, k|
+      k == keys[-1] ? a[k] = val : a = a[k]
+    end
+    new(file, {}, hsh)
+  end
+
+  def initialize(argv, opts = {}, keys = {}, argf=[])
     # argf.each { |file| p file }
     @fullpath, *@new_ones = argv
     @file, *path = @fullpath.split("/").reverse # hm.. hack,,, in 1.9
     @path = path.reverse.join("/") || "."       # can splat the first
     _, @lang, @namespace = @file.split(".").reverse
-    @debug = opts[:trace]
+    @debug = opts[:debug]
     @order = opts[:order]
     @comments, @words = read_file(@fullpath, @lang)
+    @words.merge! keys unless keys.empty?
+    work
   end
 
   def work
-    puts "Start work on #{@file} (#{@lang})"
+    out "Start work on #{@file} (#{@lang})"
     @new_ones.empty? ? sync : create_new_files
   end
 
@@ -54,8 +70,6 @@ class I18S
 
   def sync
     Dir["#{@path}/*.{yml,rb}"].each do |filename|
-      #next if filename.match('_rails')
-      next if filename =~ /#{@file}/
       lang, namespace = File.basename(filename, '.yml').split(".").reverse
       if namespace
         next unless @namespace && @namespace == namespace
@@ -63,7 +77,7 @@ class I18S
         next if @namespace
       end
 
-      puts "Writing #{filename}"
+      out "Writing #{filename}"
       (_comments, old) = read_file(filename, lang)
       # Initializing hash variable as empty if it does not exist
       other = @words.dup.deep_merge! old

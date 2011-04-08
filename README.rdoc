@@ -10,9 +10,19 @@ Syncs all locale yml/rb files based on a "master" one.
 
 = Use
 
-  i18s path/to/master/file.yml
+  i18s path/to/master/file.lang.yml
 
 All other yml should be located on the same folder as the "master".
+
+
+  i18s add some.very.nested.key Value path/to/file
+
+Adds the new key on the file and every other translation.
+
+
+  i18s path/to/directory
+
+Syncronizes the entire directory.
 
 
 == Note on Patches/Pull Requests

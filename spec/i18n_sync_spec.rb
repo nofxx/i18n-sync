@@ -124,4 +124,18 @@ describe "I18nSync" do
 
   end
 
+  describe "Add keys to i18n!" do
+
+    it "should have a nice command to add stuff" do
+      run("add dynamic Dynamic spec/work/en.yml")
+      File.read("spec/work/en.yml").should eql("# Comment cool\n--- \nen: \n  dynamic: Dynamic\n  sync: \"To Sync It!\"\n  test: Test\n")
+    end
+
+    it "should work on a complex scenario" do
+      run("add dynamic.nested.very.nasty Nasty spec/work/extra.en.yml")
+      File.read("spec/work/extra.en.yml").should eql("\n--- \nen: \n  dynamic: \n    nested: \n      very: \n        nasty: Nasty\n  normal: Normal\n  with_colon: \"Value: Rock\"\n  yup: true\n")
+
+    end
+  end
+
 end

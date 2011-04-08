@@ -14,7 +14,7 @@ require 'optparse'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'i18n_sync'
 
-Options = {}
+Options = {:lang => :en}
 
 parser = OptionParser.new do |opts|
   opts.banner = <<BANNER
@@ -24,8 +24,9 @@ Usage: #{File.basename($0)} <path/to/master.yml> [args]
 
 Options are:
 
-     -o --order    -  Order by name
-     -t --trace    -  Be more verbose
+     -l --lang LANG   -  Select a default language
+     -o --order       -  Order by name
+     -t --trace       -  Be more verbose
 
 Common usage:
 
@@ -34,15 +35,22 @@ Common usage:
 
 
 BANNER
+  opts.on("-l LANGUAGE", "--lang", "Default Language" ) { |l| Options[:lang] = l }
   opts.on("-O", "--no-order", "Table order" ) { Options[:order] = false }
-  opts.on("-t", "--trace") { Options[:trace] = true }
+  opts.on("-v", "--verbose") { Options[:debug] = true }
   opts.parse!(ARGV)
 end
 
 if ARGV.empty?
-  puts parser.banner
-  exit
+  # ipaths = %w{ config/locales lib/locales }.select { |ipath| File.exists?(ipath) }
+  # unless ipaths.empty?
+  #   ipaths.each { |i| I18S.work_on(i) }
+  # else
+    puts parser.banner
+    exit
+  # end
+elsif ARGV[0] == "add"
+  I18S.add_key *ARGV[1..-1]
 else
-  syncr = I18S.work_on ARGV, Options # ARGF
-  syncr.each(&:work)
+  I18S.work_on ARGV, Options # ARGF
 end
