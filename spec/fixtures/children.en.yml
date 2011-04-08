@@ -1,0 +1,14 @@
+en:
+  another: Another
+  newone: "New One!"
+  test: Test
+  very:
+    nasty:
+      nested:
+        bax: Bax
+        foo: Foo
+        bar: Bar
+  newvery:
+    nasty:
+      nested:
+        hi: Hi

@@ -1,0 +1,8 @@
+pt:
+  test: Teste
+  old: Velho
+  very:
+    nasty:
+      nested:
+        foo: Fu
+        old: Velho

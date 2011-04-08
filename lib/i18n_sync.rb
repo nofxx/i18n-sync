@@ -1,9 +1,33 @@
 #
-# Based on translation rake task on spree (http://spreecommerce.com/)
+# Inspired by translation rake task on spree (http://spreecommerce.com/)
 #
+# Changed to use YAML instead of text regex, but yaml has issues so we need to:
 require 'ya2yaml'
+# To work with utf8 encoded .yml files.
+
+class Hash
+  def deep_merge!(other_hash)
+    other_hash.each do |k,v|
+      next unless tv = self[k]
+      self[k] = tv.is_a?(Hash) && v.is_a?(Hash) ? tv.dup.deep_merge!(v) : v
+    end
+    self
+  end
+end
 
 class I18S
+
+  # Just here cuz I'm lazy....TBF really ugly !  ! ! !
+  def self.work_on(argv, opts = {}, argf = [])
+    if File.directory? path = argv[0]
+      Dir["#{path}/**"].map do |file|
+        next unless file =~ /(^|\.)en\./
+        new([file], opts, argf)
+      end.reject(&:nil?)
+    else
+      [new(argv, opts, argf)]
+    end
+  end
 
   def initialize(argv, opts = {}, argf=[])
     # argf.each { |file| p file }
@@ -32,7 +56,7 @@ class I18S
     Dir["#{@path}/*.{yml,rb}"].each do |filename|
       #next if filename.match('_rails')
       next if filename =~ /#{@file}/
-      lang, namespace = File.basename(filename, '.yml').split(".").reverse  #filename.split("/").last.split(".").reverse
+      lang, namespace = File.basename(filename, '.yml').split(".").reverse
       if namespace
         next unless @namespace && @namespace == namespace
       else
@@ -40,11 +64,9 @@ class I18S
       end
 
       puts "Writing #{filename}"
-      (_comments, other) = read_file(filename, lang)
+      (_comments, old) = read_file(filename, lang)
       # Initializing hash variable as empty if it does not exist
-      @words.each { |k,v| other[k] ||= @words[k] }
-      # Remove if not defined in master
-      other.delete_if { |k,v| !@words[k] }
+      other = @words.dup.deep_merge! old
       write_file(filename, lang, @comments, other)
     end
   end
@@ -60,28 +82,6 @@ class I18S
     comments = File.read(filename).each_line.select { |l| l =~ /^\w*#/}.join("\n")
     [comments, YAML.load(File.open(filename, "r:utf-8"))[basename]]
   end
-
-  #Creates hash of translation data
-  #def create_hash(data, filename)
-    # return {} unless data
-    # words = Hash.new
-    # return words if !data
-    # parent = Array.new
-    # previous_key = 'base'
-    # data.split("\n").each do |w|
-    #   next if w.strip.empty?
-    #   w.sub!(":", "") if w =~ /^(\s*)\:/
-    #   (key, *value) = w.split(':')
-    #   value = value.join# ||= ''
-    #   shift = (key =~ /\w/)/2 - parent.size                             #Determine level of current key in comparison to parent array
-    #   key = key.sub(/^\s+/,'')
-    #   parent << previous_key if shift > 0                               #If key is child of previous key, add previous key as parent
-    #   (shift*-1).times { parent.pop } if shift < 0                      #If key is not related to previous key, remove parent keys
-    #   previous_key = key                                                #Track key in case next key is child of this key
-    #   words[parent.join(':')+':'+key] = value
-    # end
-    # words
-  #end
 
   #Writes to file from translation data hash structure
   def write_file(filename, basename, comments, data)

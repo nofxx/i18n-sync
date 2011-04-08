@@ -43,6 +43,6 @@ if ARGV.empty?
   puts parser.banner
   exit
 else
-  syncr = I18S.new ARGV, Options # ARGF
-  syncr.work
+  syncr = I18S.work_on ARGV, Options # ARGF
+  syncr.each(&:work)
 end

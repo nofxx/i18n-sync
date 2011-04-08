@@ -7,8 +7,16 @@ def run(comm)
   `bin/i18s #{comm}`
 end
 
+def result(name)
+  File.read("spec/results/#{name}.yml")
+end
+
+def files_should_match(name, extra = nil)
+  File.read("spec/work#{extra}/#{name}.yml").should eql(result(name))
+end
+
 describe "I18nSync" do
-  before(:each) do
+  before do
     `rm -rf spec/work`
     `cp -rf spec/fixtures spec/work`
   end
@@ -40,6 +48,7 @@ describe "I18nSync" do
   end
 
   describe "Namespaced" do
+
     let(:i) { I18S.new("spec/work/named.en.yml") }
 
     it "should parse master file" do
@@ -50,7 +59,8 @@ describe "I18nSync" do
     end
 
     it "should read the hash" do
-      i.instance_variable_get("@words").should eql({"something"=>"Something", "another"=>"Another"})
+      i.instance_variable_get("@words").
+        should eql({"something"=>"Something", "another"=>"Another"})
     end
 
   end
@@ -61,7 +71,8 @@ describe "I18nSync" do
       newfile = "spec/work/fo.yml"
       `rm #{newfile}` if File.exists?(newfile)
       run("#{EN} fo")
-      File.read(newfile).should eql("# Comment cool\n--- \nfo: \n  sync: \"To Sync It!\"\n  test: Test\n")
+      File.read(newfile).
+        should eql("# Comment cool\n--- \nfo: \n  sync: \"To Sync It!\"\n  test: Test\n")
     end
 
     it "should sync files nicely" do
@@ -76,19 +87,39 @@ describe "I18nSync" do
 
     it "should work with namespaces" do
       run("spec/work/named.en.yml")
-      File.read("spec/work/named.pt.yml").should eql("\n--- \npt: \n  another: Another\n  something: Algo\n")
-      File.read("spec/work/pt.yml").should eql("\npt:\n  sync: To Sync It!\n  test: Teste\n  new: \"Uau, isso é novo\"\n")
+      files_should_match("named.pt")
+      File.read("spec/work/pt.yml").
+        should eql("\npt:\n  sync: To Sync It!\n  test: Teste\n  new: \"Uau, isso é novo\"\n")
     end
 
     it "should order alphabeticaly namespaces" do
       run("spec/work/order.pt.yml")
-      File.read("spec/work/order.en.yml").should eql("\n--- \nen: \n  alpha: Alpha\n  blue: Blue\n  zebra: Zebra\n")
+      files_should_match("order.en")
       File.read("spec/work/named.pt.yml").should eql("\npt:\n  something: Algo\n")
     end
 
     it "should work with extra chars" do
       run("spec/work/extra.en.yml")
-      File.read("spec/work/extra.pt.yml").should eql("\n--- \npt: \n  normal: Normal\n  with_colon: \"Value: Rock\"\n  yup: Sim\n")
+      files_should_match("extra.pt")
+    end
+
+    it "should work with deep nestings" do
+      run("spec/work/children.en.yml")
+      files_should_match("children.pt")
+    end
+
+  end
+
+  describe "Multi Files" do
+
+    before do
+      `rm -rf spec/workmulti`
+      `cp -rf spec/fixtures spec/workmulti`
+    end
+
+    it "should sync a show directory" do
+      run("spec/workmulti")
+      files_should_match("extra.pt", :multi)
     end
 
   end

@@ -20,3 +20,4 @@ pkg
 
 ## PROJECT::SPECIFIC
 spec/work/*
+spec/workmulti/*

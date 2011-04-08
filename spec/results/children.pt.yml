@@ -1,0 +1,16 @@
+
+--- 
+pt: 
+  another: Another
+  newone: "New One!"
+  newvery: 
+    nasty: 
+      nested: 
+        hi: Hi
+  test: Teste
+  very: 
+    nasty: 
+      nested: 
+        bar: Bar
+        bax: Bax
+        foo: Fu
