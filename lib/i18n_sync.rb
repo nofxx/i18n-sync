@@ -86,6 +86,7 @@ class I18S
   end
 
   def create newlang
+    # New name  "app.en.yml" -> "app.pt.yml", "en.yml" -> "pt.yml"
     newname =  @file.gsub(/(^|\.)#{@lang}\./, "\\1#{newlang}.")
     fullpath =  "#{@path}/#{newname}"
     return puts("File exists.") if File.exists?(fullpath)
@@ -103,13 +104,7 @@ class I18S
     File.delete filename if File.exists? filename
     File.open(filename, "w:utf-8") do |y|
       y.puts(comments) if comments
-      #y.puts(basename + ":\n")
-      y.puts({ basename => data }.ya2yaml )# (:sick_compatible => true))
-      # words.sort.each do |k,v|
-      #   keys = k.split(':')
-      #   (keys.size-1).times { keys[keys.size-1] = '  ' + keys[keys.size-1] }   #Add indentation for children keys
-      #   y.puts(keys[keys.size-1]+':'+v+"\n")
-      # end
+      y.puts({ basename => data }.ya2yaml )
     end
   end
 
