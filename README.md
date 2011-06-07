@@ -11,7 +11,7 @@ Install
 
 
 Use
----
+===
 
 
     i18s path/to/master/file.lang.yml
@@ -27,17 +27,32 @@ This command syncs all config/locale/app.*.yml files
 using en as the master.
 
 
-Other Options
--------------
+Create New Files
+----------------
+
+    i18s config/locales/app.en.yml pt es it
+
+
+This creates 'app.pt.yml', 'app.es.yml'....
+
+
+
+Add Key
+-------
 
     i18s add some.very.nested.key Value path/to/file
 
 Adds the new key on the file and every other translation.
 
 
+
+Full Sync
+---------
+
     i18s path/to/directory
 
 Syncronizes the entire directory.
+
 
 
 Note on Patches/Pull Requests
