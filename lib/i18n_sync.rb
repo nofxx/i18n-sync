@@ -62,9 +62,9 @@ class I18S
   end
 
   def create_new_files
-    @new_ones.each do |file|
-      puts "Creating new file #{file}"
-      create(file)
+    @new_ones.each do |name|
+      puts "Creating new file #{name}"
+      create name
     end
   end
 
@@ -85,10 +85,11 @@ class I18S
     end
   end
 
-  def create(file)
-    fullpath = file =~ /\// ? file : "#{@path}/#{file}.yml"
+  def create newlang
+    newname =  @file.gsub(/(^|\.)#{@lang}\./, "\\1#{newlang}.")
+    fullpath =  "#{@path}/#{newname}"
     return puts("File exists.") if File.exists?(fullpath)
-    write_file(fullpath, file, @comments, @words)
+    write_file(fullpath, newlang, @comments, @words)
   end
 
   #Retrieve comments, translation data in hash form

@@ -67,14 +67,6 @@ describe "I18nSync" do
 
   describe "Acceptance" do
 
-    it "should create a new one" do
-      newfile = "spec/work/fo.yml"
-      `rm #{newfile}` if File.exists?(newfile)
-      run("#{EN} fo")
-      File.read(newfile).
-        should eql("# Comment cool\n--- \nfo: \n  sync: \"To Sync It!\"\n  test: Test\n")
-    end
-
     it "should sync files nicely" do
       run("spec/work/pt.yml")
       File.read(EN).should eql("\n--- \nen: \n  new: \"Uau, isso é novo\"\n  sync: \"To Sync It!\"\n  test: Test\n")
@@ -106,6 +98,22 @@ describe "I18nSync" do
     it "should work with deep nestings" do
       run("spec/work/children.en.yml")
       files_should_match("children.pt")
+    end
+
+  end
+
+  describe "Creating files" do
+
+    it "should create a new one" do
+      newfile = "spec/work/fo.yml"; `rm #{newfile}` if File.exists?(newfile)
+      run("#{EN} fo")
+      File.read(newfile).should eql("# Comment cool\n--- \nfo: \n  sync: \"To Sync It!\"\n  test: Test\n")
+    end
+
+    it "should create a new with the right name" do
+      newfile = "spec/work/named.fo.yml"; `rm #{newfile}` if File.exists?(newfile)
+      run("spec/work/named.en.yml fo")
+      File.read(newfile).should eql("\n--- \nfo: \n  another: Another\n  something: Something\n")
     end
 
   end
