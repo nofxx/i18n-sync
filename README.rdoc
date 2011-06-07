@@ -1,31 +1,47 @@
-= i18n_sync
+i18n Sync!
+==========
 
 Syncs all locale yml/rb files based on a "master" one.
 
 
-== Install
+Install
+-------
 
-  gem install i18n_sync
+    gem install i18n_sync
 
 
-= Use
+Use
+---
 
-  i18s path/to/master/file.lang.yml
+
+    i18s path/to/master/file.lang.yml
 
 All other yml should be located on the same folder as the "master".
 
+Example:
 
-  i18s add some.very.nested.key Value path/to/file
+
+    i18s config/locales/app.en.yml
+
+This command syncs all config/locale/app.*.yml files
+using en as the master.
+
+
+Other Options
+-------------
+
+    i18s add some.very.nested.key Value path/to/file
 
 Adds the new key on the file and every other translation.
 
 
-  i18s path/to/directory
+    i18s path/to/directory
 
 Syncronizes the entire directory.
 
 
-== Note on Patches/Pull Requests
+Note on Patches/Pull Requests
+-----------------------------
 
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -35,6 +51,7 @@ Syncronizes the entire directory.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+Copyright
+---------
 
 Copyright (c) 2010 Marcos Piccinini. See LICENSE for details.
