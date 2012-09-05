@@ -1,6 +1,7 @@
 #
 # Inspired by translation rake task on spree (http://spreecommerce.com/)
 #
+require 'yaml'
 # Changed to use YAML instead of text regex, but yaml has issues so we need to:
 require 'ya2yaml'
 # To work with utf8 encoded .yml files.
