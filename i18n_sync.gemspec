@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     "LICENSE",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
     "bin/i18s",
