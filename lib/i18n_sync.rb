@@ -105,7 +105,9 @@ class I18S
     File.delete filename if File.exists? filename
     File.open(filename, "w:utf-8") do |y|
       y.puts(comments) if comments
-      y.puts({ basename => data }.ya2yaml )
+      yaml = { basename => data }.ya2yaml
+      yaml.gsub!(/ +$/, '') # removing trailing spaces
+      y.puts( yaml )
     end
   end
 
