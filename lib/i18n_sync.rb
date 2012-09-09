@@ -20,7 +20,7 @@ end
 
 class I18S
 
-  VERSION = '0.5.0' # babel shark
+  VERSION = '0.5.1' # babel shark
 
   # Just here cuz I'm lazy....TBF really ugly !  ! ! !
   def self.work_on(argv, opts = {}, argf = [])
