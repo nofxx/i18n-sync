@@ -1,7 +1,7 @@
 i18n Sync!
 ==========
 
-Syncs all locale yml/rb files based on a "master" one.
+Syncs all locales/languages yml/rb files keys based on a "master" one.
 
 
 Install
@@ -24,7 +24,7 @@ Example:
     i18s config/locales/app.en.yml
 
 This command syncs all config/locale/app.*.yml files
-using en as the master.
+using 'app.en.yml' as the master.
 
 
 Create New Files

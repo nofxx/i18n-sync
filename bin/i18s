@@ -18,7 +18,10 @@ Options = {:lang => :en}
 
 parser = OptionParser.new do |opts|
   opts.banner = <<BANNER
-I18N Sync
+------------------------------------------------------
+  I18N  Sync                                         ->
+                                                     <-
+------------------------------------------------------
 
 Usage: #{File.basename($0)} <path/to/master.yml> [args]
 

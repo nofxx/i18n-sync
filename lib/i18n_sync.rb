@@ -2,10 +2,11 @@
 # Inspired by translation rake task on spree (http://spreecommerce.com/)
 #
 require 'yaml'
-# Changed to use YAML instead of text regex, but yaml has issues so we need to:
+# Changed to use YAML instead of text regex,
+# but yaml has issues so we need to:
 require 'ya2yaml'
-# To work with utf8 encoded .yml files.
-
+# In order to work with utf8 encoded .yml files.
+# TODO: Fixed in ruby 1.9.x ???
 
 class Hash
   def deep_merge!(other_hash)
@@ -18,6 +19,8 @@ class Hash
 end
 
 class I18S
+
+  VERSION = '0.5.0' # babel shark
 
   # Just here cuz I'm lazy....TBF really ugly !  ! ! !
   def self.work_on(argv, opts = {}, argf = [])
