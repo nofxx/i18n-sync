@@ -51,7 +51,7 @@ module I18n
         out "Writing #{filename}"
         (_comments, old) = read_file(filename, lang)
         # Initializing hash variable as empty if it does not exist
-        other = @words.dup.deep_merge! old
+        other = @words.dup.deep_sync! old
         write_file(filename, lang, @comments, other)
       end
     end
