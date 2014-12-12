@@ -19,5 +19,6 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
-spec/work/*
-spec/workmulti/*
+spec/tmp/*
+
+Gemfile.lock
