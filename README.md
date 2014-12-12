@@ -1,7 +1,8 @@
 i18n Sync!
 ==========
 
-Syncs all locales/languages yml/rb files keys based on a "master" one.
+Syncs all locales/languages yml/rb files *keys* based on a "master" one.
+
 
 
 Install
@@ -16,6 +17,7 @@ Use
 
     i18s path/to/master/file.lang.yml
 
+
 All other yml should be located on the same folder as the "master".
 
 Example:
@@ -23,8 +25,8 @@ Example:
 
     i18s config/locales/app.en.yml
 
-This command syncs all config/locale/app.*.yml files
-using 'app.en.yml' as the master.
+This command syncs all config/locale/app.*.yml files keys
+using 'app.en.yml' as the template.
 
 
 Create New Files
@@ -65,6 +67,7 @@ Note on Patches/Pull Requests
 * Commit, do not mess with rakefile, version, or history.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
+
 
 Copyright
 ---------

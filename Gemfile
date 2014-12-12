@@ -1,7 +1,3 @@
-source :rubygems
+source 'https://rubygems.org'
 
-gem 'ya2yaml'
-
-group :development do
-  gem "rspec", ">= 2.3.0"
-end
+gemspec

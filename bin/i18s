@@ -12,7 +12,7 @@ rescue LoadError
 end
 require 'optparse'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'i18n_sync'
+require 'i18n/sync'
 
 Options = {:lang => :en}
 
@@ -28,18 +28,20 @@ Usage: #{File.basename($0)} <path/to/master.yml> [args]
 Options are:
 
      -l --lang LANG   -  Select a default language
-     -o --order       -  Order by name
-     -t --trace       -  Be more verbose
+     -O --no-order    -  Don`t automatically order
+     -S --no-chomp    -  Don`t delete trailing spaces
+     -v --vernose     -  Be more verbose
 
 Common usage:
 
    i18s ./en-US.yml    - Will sync all files with en-US
    i18s ./en-US.yml pt - Creates a new translate file pt.yml
 
-
+'''`'``'`
 BANNER
   opts.on("-l LANGUAGE", "--lang", "Default Language" ) { |l| Options[:lang] = l }
-  opts.on("-O", "--no-order", "Table order" ) { Options[:order] = false }
+  opts.on("-O", "--no-order", "Don`t order automatically" ) { Options[:order] = false }
+  opts.on("-S", "--no-chomp", "Don`t remove trailing spaces" ) { Options[:space] = false }
   opts.on("-v", "--verbose") { Options[:debug] = true }
   opts.parse!(ARGV)
 end
@@ -53,7 +55,7 @@ if ARGV.empty?
     exit
   # end
 elsif ARGV[0] == "add"
-  I18S.add_key *ARGV[1..-1]
+  I18n::Sync.add_key *ARGV[1..-1]
 else
-  I18S.work_on ARGV, Options # ARGF
+  I18n::Sync.work_on ARGV, Options # ARGF
 end
