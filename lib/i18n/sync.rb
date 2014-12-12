@@ -14,8 +14,6 @@ module I18n
 
   class Sync
 
-    VERSION = '0.7.0' # babel shark
-
     def initialize(argv, opts = {}, keys = {}, argf=[])
       # argf.each { |file| p file }
       @fullpath, *@new_ones = argv
