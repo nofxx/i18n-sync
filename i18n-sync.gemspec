@@ -3,24 +3,24 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'i18n/sync/version'
 
-Gem::Specification.new do |gem|
-  gem.name = "i18n-sync"
-  gem.version = I18n::Sync::VERSION
+Gem::Specification.new do |s|
+  s.name = "i18n-sync"
+  s.version = I18n::Sync::VERSION
+  s.platform = Gem::Platform::RUBY
 
-  gem.authors = ["Marcos Piccinini"]
-  gem.homepage = %q{http://github.com/nofxx/i18n_sync}
-  gem.summary = %q{Syncs all locale yml/rb files based on a "master" one.}
-  gem.email = "x@nofxx.com"
-  gem.description = %q{Gem to sync all locale yml/rb files based on a "master" one.}
+  s.authors = ["Marcos Piccinini"]
+  s.homepage = %q{http://github.com/nofxx/i18n-sync}
+  s.email = "x@nofxx.com"
+  s.summary = %q{Syncs all locale yml/rb files based on a "master" one.}
+  s.description = %q{Gem to sync all locale yml/rb files based on a "master" one.}
+  s.license     = 'MIT'
 
-  gem.executables = ["i18s"]
-  gem.default_executable = %q{i18s}
+  s.executables = ["i18s"]
+  s.default_executable = %q{i18s}
 
-  gem.files = Dir.glob("{lib,spec}/**/*") + %w(README.md Rakefile)
-  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.require_path = "lib"
+  s.files = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.require_paths = ["lib"]
 
-
-  gem.add_dependency('ya2yaml', [">= 0"])
-  gem.add_development_dependency("rspec", ["~> 2.8.0"])
+  s.add_dependency('thor', [">= 0"])
 end

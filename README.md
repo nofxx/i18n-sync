@@ -4,33 +4,28 @@ i18n Sync!
 Syncs all locales/languages yml/rb files *keys* based on a "master" one.
 
 
-
 Install
 -------
 
-    gem install i18n_sync
+    gem install i18n-sync
 
 
-Use
-===
+## Use
 
+Synchonize all files (default to master :en)
 
-    i18s path/to/master/file.lang.yml
+    i18s
 
+Or specify a master:
+
+    i18s path/to/master/app.pt.yml
 
 All other yml should be located on the same folder as the "master".
-
-Example:
-
-
-    i18s config/locales/app.en.yml
-
 This command syncs all config/locale/app.*.yml files keys
-using 'app.en.yml' as the template.
+using 'app.pt.yml' as the master.
 
 
-Create New Files
-----------------
+# New Files
 
     i18s config/locales/app.en.yml pt es it
 
@@ -38,23 +33,23 @@ Create New Files
 This creates 'app.pt.yml', 'app.es.yml'....
 
 
+# Add Key
 
-Add Key
--------
-
-    i18s add some.very.nested.key Value path/to/file
+    i18s add some.very.nested.key Value prefix
 
 Adds the new key on the file and every other translation.
 
 
+# Del Key
 
-Full Sync
----------
+    i18s del some.nested.key prefix
 
-    i18s path/to/directory
+Deletes that key from files with prefix
 
-Syncronizes the entire directory.
 
+# Rails default path
+
+Defaults to "config/locales"
 
 
 Note on Patches/Pull Requests
