@@ -17,8 +17,9 @@ end
 
 describe "I18nSync" do
   before do
-    `rm -rf spec/work`
-    `cp -rf spec/fixtures spec/work`
+    FileUtils.rm_rf 'spec/tmp'
+    FileUtils.mkdir 'spec/tmp'
+    FileUtils.cp_r 'spec/fixtures', 'spec/tmp'
   end
 
   describe "Unit" do

@@ -1,61 +1,29 @@
 #!/usr/bin/env ruby
-#
-#  I18S
-#
-#  Created on 2010-5-17.
-#  Copyleft nofxx (c) 2011.
-#
-begin
-  require 'rubygems'
-rescue LoadError
-  # no rubygems to load, so we fail silently
-end
 require 'optparse'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'i18n/sync'
 
-Options = {:lang => :en}
+I18n::Sync::CLI.start(ARGV)
 
-parser = OptionParser.new do |opts|
-  opts.banner = <<BANNER
-------------------------------------------------------
-  I18N  Sync                                         ->
-                                                     <-
-------------------------------------------------------
+# Options = {:lang => :en}
 
-Usage: #{File.basename($0)} <path/to/master.yml> [args]
+# parser = OptionParser.new do |opts|
+#   opts.banner = <<BANNER
+# ------------------------------------------------------
+#   I18N  Sync                                         ->
+#                                                      <-
+# ------------------------------------------------------
 
-Options are:
+# Usage: #{File.basename($0)} <path/to/master.yml> [args]
 
-     -l --lang LANG   -  Select a default language
-     -O --no-order    -  Don`t automatically order
-     -S --no-chomp    -  Don`t delete trailing spaces
-     -v --vernose     -  Be more verbose
+# Options are:
 
-Common usage:
+#      -l --lang LANG   -  Select a default language
+#      -O --no-order    -  Don`t automatically order
+#      -S --no-chomp    -  Don`t delete trailing spaces
+#      -v --vernose     -  Be more verbose
 
-   i18s ./en-US.yml    - Will sync all files with en-US
-   i18s ./en-US.yml pt - Creates a new translate file pt.yml
+# Common usage:
 
-'''`'``'`
-BANNER
-  opts.on("-l LANGUAGE", "--lang", "Default Language" ) { |l| Options[:lang] = l }
-  opts.on("-O", "--no-order", "Don`t order automatically" ) { Options[:order] = false }
-  opts.on("-S", "--no-chomp", "Don`t remove trailing spaces" ) { Options[:space] = false }
-  opts.on("-v", "--verbose") { Options[:debug] = true }
-  opts.parse!(ARGV)
-end
-
-if ARGV.empty?
-  # ipaths = %w{ config/locales lib/locales }.select { |ipath| File.exists?(ipath) }
-  # unless ipaths.empty?
-  #   ipaths.each { |i| I18S.work_on(i) }
-  # else
-    puts parser.banner
-    exit
-  # end
-elsif ARGV[0] == "add"
-  I18n::Sync.add_key *ARGV[1..-1]
-else
-  I18n::Sync.work_on ARGV, Options # ARGF
-end
+#    i18s ./en-US.yml    - Will sync all files with en-US
+#    i18s ./en-US.yml pt - Creates a new translate file pt.yml
