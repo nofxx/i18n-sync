@@ -1,5 +1,6 @@
 module I18n
   module Sync
+    # Main class
     class Work
       def initialize(argv, opts = {}, keys = {}, _argf = [])
         # argf.each { |file| p file }
@@ -12,7 +13,7 @@ module I18n
         @comments, @words = read_file(@fullpath, @lang)
         @words.merge! keys unless keys.empty?
         start
-    end
+      end
 
       def start
         out "Start work on #{@file} (#{@lang})"
