@@ -23,6 +23,13 @@ module I18n
       desc 'add KEY', 'Adds key on all locales'
       def add(key, prefix = :app)
         I18n::Sync.add_key key, prefix
+        #         hsh = Hash.new { |h, k| h[k] = Hash.new(&h.default_proc) }
+        # keys = key.split('.')
+        # keys.reduce(hsh) do |a, k|
+        #   k == keys[-1] ? a[k] = val : a = a[k]
+        # end
+        # Work.new(file, {}, hsh)
+
       end
 
       desc 'del KEY', 'Removes key on all locales'
@@ -32,8 +39,23 @@ module I18n
 
       def method_missing(*params)
         return super if params.size > 1
-        I18n::Sync.work_on params.first, options # ARGF
+        I18n::Sync::Work.from_master params.join, options # ARGF
       end
     end
   end
 end
+
+    # class << self
+    #   # Just here cuz I'm lazy....TBF really ugly !  ! ! !
+    #   def work_on(base, opts = {})
+    #     path = (base || DEFAULT_LOCALE).to_s
+    #     fail "Path doesn't exist '#{path}'" unless File.exist?(path)
+    #     if File.directory?(path)
+    #       Dir["#{path}/**"].map do |file|
+    #         next unless file =~ /(^|\.)#{opts[:lang]}\./
+    #         Work.new([file], opts, argf)
+    #       end.reject(&:nil?)
+    #     else
+    #       Work.new(base, opts)
+    #     end
+    #   end

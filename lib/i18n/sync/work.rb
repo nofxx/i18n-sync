@@ -2,41 +2,43 @@ module I18n
   module Sync
     # Main class
     class Work
-      def initialize(argv, opts = {}, keys = {}, _argf = [])
+      attr_accessor :path, :prefix, :master, :debug
+
+      def initialize(master = :en, prefix = nil, path = nil,  opts = {}) #, keys = {}, _argf = [])
         # argf.each { |file| p file }
-        @fullpath, *@new_ones = argv
-        @file, *path = @fullpath.split('/').reverse # hm.. hack,,, in 1.9
-        @path = path.reverse.join('/') || '.'       # can splat the first
-        _, @lang, @namespace = @file.split('.').reverse
-        @debug = opts[:debug]
-        @order = opts[:order]
-        @comments, @words = read_file(@fullpath, @lang)
-        @words.merge! keys unless keys.empty?
-        start
+        @master = master
+        @prefix = prefix
+        @path = path
+        file = File.join(path, [prefix, master, :yml].join("."))
+        @comments, @words = read_file file, master
+        # @words.merge! keys unless keys.empty?
+        say "Start work on #{file} (#{master})"
+        sync
       end
 
+      def self.from_master(file, opts = {})
+        name, path = File.basename(file), File.dirname(file)
+        _ext, master, prefix = name.split('.').reverse
+        new(master, prefix, path, opts)
+      end
+
+
       def start
-        out "Start work on #{@file} (#{@lang})"
         @new_ones.empty? ? sync : create_new_files
       end
 
       def create_new_files
         @new_ones.each do |name|
-          puts "Creating new file #{name}"
+          say "Creating new file #{name}"
           create name
         end
       end
 
       def sync
-        Dir["#{@path}/*.{yml,rb}"].each do |filename|
-          lang, namespace = File.basename(filename, '.yml').split('.').reverse
-          if namespace
-            next unless @namespace && @namespace == namespace
-          else
-            next if @namespace
-          end
+        Dir["#{@path}/#{prefix}*.{yml,rb}"].each do |filename|
+          lang, pre = File.basename(filename, '.yml').split('.').reverse
 
-          out "Writing #{filename}"
+          say "Writing #{filename}"
           (_comments, old) = read_file(filename, lang)
           # Initializing hash variable as empty if it does not exist
           other = @words.dup.deep_sync! old
@@ -53,9 +55,9 @@ module I18n
       end
 
       # Retrieve comments and translation data in hash form
-      def read_file(filename, basename)
-        comments = File.read(filename).each_line.select { |l| l =~ /^\w*#/ }.join("\n")
-        [comments, YAML.load(File.open(filename, 'r:utf-8'))[basename]]
+      def read_file file, namespace
+        comments = File.read(file).each_line.select { |l| l =~ /^\w*#/ }.join("\n")
+        [comments, YAML.load(File.open(file, 'r:utf-8'))[namespace]]
       end
 
       # Writes to file the translation data hash structure
@@ -70,8 +72,8 @@ module I18n
         end
       end
 
-      def out(txt)
-        puts txt if @debug
+      def say(txt)
+        puts txt # if debug
       end
     end
   end
