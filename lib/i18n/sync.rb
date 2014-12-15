@@ -12,6 +12,7 @@ require 'yaml'
 # but yaml has issues so we need to:
 # In order to work with utf8 encoded .yml files.
 # TODO: Fixed in ruby 1.9.x ???
+require 'i18n/sync/core_ext/hash/deep_sync'
 require 'i18n/sync/yaml_file'
 require 'i18n/sync/work'
 require 'i18n/sync/cli'

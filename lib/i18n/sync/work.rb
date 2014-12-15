@@ -22,7 +22,7 @@ module I18n
         master.siblings.each do |file|
           say "Syncing #{file}"
           other = YamlFile.new(file)
-          other.sync_with!(master)
+          other.sync!(master)
           other.write!
         end
       end
