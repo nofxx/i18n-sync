@@ -39,23 +39,8 @@ module I18n
 
       def method_missing(*params)
         return super if params.size > 1
-        I18n::Sync::Work.from_master params.join, options # ARGF
+        I18n::Sync::Work.new(params.join, options).sync
       end
     end
   end
 end
-
-    # class << self
-    #   # Just here cuz I'm lazy....TBF really ugly !  ! ! !
-    #   def work_on(base, opts = {})
-    #     path = (base || DEFAULT_LOCALE).to_s
-    #     fail "Path doesn't exist '#{path}'" unless File.exist?(path)
-    #     if File.directory?(path)
-    #       Dir["#{path}/**"].map do |file|
-    #         next unless file =~ /(^|\.)#{opts[:lang]}\./
-    #         Work.new([file], opts, argf)
-    #       end.reject(&:nil?)
-    #     else
-    #       Work.new(base, opts)
-    #     end
-    #   end
