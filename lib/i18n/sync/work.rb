@@ -4,7 +4,7 @@ module I18n
     class Work
       attr_accessor :master, :debug
 
-      def initialize(master,  opts = {}) #, keys = {}, _argf = [])
+      def initialize(master, opts = {})
         @master = YamlFile.new(master)
         say "Start work on #{master}"
       end
@@ -14,7 +14,7 @@ module I18n
         fail "Path doesn't exist '#{path}'" unless File.exist?(path)
         Dir["#{path}/**"].map do |file|
           next unless file =~ /(^|\.)#{master}\./
-          new(file,  opts)
+          new(file, opts)
         end
       end
 
@@ -24,6 +24,12 @@ module I18n
           other = YamlFile.new(file)
           other.sync!(master)
           other.write!
+        end
+      end
+
+      def add_key(key, value)
+        key.split('.').each do |key|
+          master.data[key] ||= {} .deep_sync
         end
       end
 

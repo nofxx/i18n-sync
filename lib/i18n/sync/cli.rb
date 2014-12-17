@@ -22,19 +22,18 @@ module I18n
 
       desc 'add KEY', 'Adds key on all locales'
       def add(key, prefix = :app)
-        I18n::Sync.add_key key, prefix
+        I18n::Sync::Work.add_key key, prefix
         #         hsh = Hash.new { |h, k| h[k] = Hash.new(&h.default_proc) }
         # keys = key.split('.')
         # keys.reduce(hsh) do |a, k|
         #   k == keys[-1] ? a[k] = val : a = a[k]
         # end
         # Work.new(file, {}, hsh)
-
       end
 
       desc 'del KEY', 'Removes key on all locales'
       def del(key, prefix = nil)
-        I18n::Sync.del_key key, prefix
+        I18n::Sync::Work.del_key key, prefix
       end
 
       def method_missing(*params)

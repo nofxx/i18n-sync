@@ -13,7 +13,7 @@ module I18n
       end
 
       def file
-        @file ||= File.join(path, [prefix, lang, :yml].join("."))
+        @file ||= File.join(path, [prefix, lang, :yml].join('.'))
       end
 
       def siblings

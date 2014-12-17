@@ -1,5 +1,5 @@
+# Ensures multilevel hash merging
 class Hash
-  # Ensures multilevel hash merging
   def deep_sync(other)
     other.each do |k, v|
       next unless (tv = self[k])
