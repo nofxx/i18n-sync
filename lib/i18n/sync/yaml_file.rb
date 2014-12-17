@@ -5,7 +5,6 @@ module I18n
 
       def initialize(file)
         fail "File doesn't exist '#{file}'" unless File.exist?(file)
-
         name, @path = File.basename(file), File.dirname(file)
         _ext, @lang, @prefix = name.split('.').reverse
         @data ||= YAML.load(File.open(file, 'r:utf-8'))[lang]
@@ -21,7 +20,7 @@ module I18n
       end
 
       def sync!(master)
-        @data = master.data.deep_sync(data)
+        @data = master.data.dup.deep_sync!(data)
       end
 
       def write!
