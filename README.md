@@ -1,6 +1,22 @@
 i18n Sync!
 ==========
 
+# NOTICE
+
+No one works on this.
+
+# NOT MAINTAINED
+
+And there's something else.
+
+# CHECK THIS GEM INSTEAD
+
+
+http://glebm.github.io/i18n-tasks/
+
+
+# OLD
+
 Syncs all locales/languages yml/rb files *keys* based on a "master" one.
 
 
